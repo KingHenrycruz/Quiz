@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+
+        body{
+            background-image: linear-gradient(315deg,#b8c6db 0%,#f5f7fa 74%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        h2{
+            text-align: center;
+        }
+        .quizContainer{
+            background-color: whitesmoke;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 5px black;
+            width: 40vw;
+            max-width: 100%;
+        }
+
+        #quiz{
+            padding: 1rem;
+        }
+        
+        p{
+            font-size: 1.5rem;
+            padding: 10px;
+            font-weight: 500;
+            text-align: center;
+        }
+        .quiz-header{
+            padding: 2rem;
+        }
+        h2{
+            margin: 0;
+        }
+        ul{
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li{
+            margin: 1rem 0;
+            font-size: 1.1rem;
+        }
+        button{
+            background-color: #8e44ad;
+            border: none;
+            color: white;
+            display: block;
+            font-size: 1.5rem;
+            width: 100%;
+            padding: 1.25rem;
+        }
+        button:hover{
+            cursor: pointer;
+            background-color: #201425;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="quizContainer" id="quiz">
+        <div class="quiz-header">
+
+        <h2>Quiz Questions</h2>
+        <p id="questions">Question</p>
+        <ul>
+            <li>
+                <input type="radio" id="a" name="answer" class="answer">
+                <label for="a" id="q1"></label>
+            </li>
+
+            <li>
+                <input type="radio" id="b" name="answer" class="answer">
+                <label for="b" id="q2"></label>
+            </li>
+
+            <li>
+                <input type="radio" id="c" name="answer" class="answer">
+                <label for="c" id="q3"></label>
+            </li>
+
+            <li>
+                <input type="radio" id="d" name="answer" class="answer">
+
+                <label for="d" id="q4"></label>
+            </li>
+
+        </ul>
+        </div>
+        <button id="submit">Submit</button>
+    
+    </div>
+    
+
+    <script>
+        const quizData = [
+            {
+                question: "Who is the founder of Loctech IT Institute?",
+                a: "Mr. Joseph",
+                b: "Mr. Alali",
+                c: "Mr. James",
+                d: "Mr. Lawson",
+                answer: "d"
+        },
+        {
+            question: "How long has Loctech existed?",
+                a: "25 years",
+                b: "50 years",
+                c: "None of the above",
+                d: "2 years",
+                answer: "c"
+        },
+        {
+            question: "Who's Nigeria's all time best President?",
+                a: "Pres. Umaru Yar' Adua",
+                b: "Pres. Olusegun Obasanjo",
+                c: "Pres. Muhammadu Buhari",
+                d: "Pres. Goodluch Ebele J.",
+                answer: "a"
+        },
+        {
+            question: "Who's currently the richest Man according to forbes",
+                a: "Jeff Bezos",
+                b: "Elon Musk",
+                c: "Carlo Slim Helu",
+                d: "Warren Buffet",
+                answer: "b"
+        },
+        {
+            question: "What family rules Earth?",
+                a: "The Saudi royal family",
+                b: "The Ize family",
+                c: "The Dubai royal family",
+                d: "The British family",
+                answer: "b"
+            
+        }
+    ];
+
+    const quiz = document.getElementById('quiz');
+    const answerEls = document.querySelectorAll('.answer')
+    const questionEl = document.getElementById('questions');
+    const q1 = document.getElementById('q1');
+    const q2 = document.getElementById('q2');
+    const q3 = document.getElementById('q3');
+    const q4 = document.getElementById('q4');
+
+    const submitBtn = document.getElementById('submit')
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    loadQuiz();
+
+    function loadQuiz(){
+        deselectAnswers();
+
+        const currentQuizData = quizData[currentQuestion];
+        questionEl.innerHTML = currentQuizData.question;
+
+
+        q1.innerText = currentQuizData.a;
+        q2.innerHTML = currentQuizData.b;
+        q3.innerHTML = currentQuizData.c;
+        q4.innerHTML = currentQuizData.d;
+    }
+
+    function getSelected(){
+        let answer = undefined;
+
+        answerEls.forEach((answerEl) => {
+            if (answerEl.checked){
+                answer = answerEl.id;
+            }
+        });
+        return answer;
+    };
+
+    function deselectAnswers(){
+        answerEls.forEach((answerEl) => {
+            answerEl.checked = false;
+        });
+    }
+
+    submitBtn.addEventListener('click', () => {
+        // checks to see the answer
+        const answer = getSelected();
+
+        if(answer){
+            if(answer === quizData[currentQuestion].answer){
+                score++;
+            }
+
+            currentQuestion++;
+            if (currentQuestion < quizData.length){
+                loadQuiz();
+
+            }else{
+                quiz.innerHTML = `<h2>You answered ${score}/${quizData.length} questions correctly.</h2>`
+            }
+
+        }
+        
+    });
+    </script>
+</body>
+</html>
